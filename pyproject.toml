@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyturk"
+version = "0.0.1"
+description = "A tiny deep learning framework based on micrograd, built for clarity and gradient intuition."
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [{ name = "Nabin Oli" }]
+license = { text = "MIT" }
+keywords = ["deep learning", "autograd", "transformers", "micrograd", "MLP", "educational AI"]
+
+dependencies = [
+]
+
+[project.urls]
+Homepage = "https://github.com/nabin2004/pyturk"
+Issues = "https://github.com/nabin2004/pyturk/issues"

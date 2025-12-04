@@ -29,5 +29,6 @@ def draw_dot(root):
   for n1, n2 in edges:
     # connect n1 to the op node of n2
     dot.edge(str(id(n1)), str(id(n2)) + n2._op)
-
+    
+  dot.render("grad_graph", view=True)
   return dot
