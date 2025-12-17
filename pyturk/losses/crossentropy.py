@@ -1,5 +1,5 @@
 import math
-from pyturk.value import Value
+from pyturk.autograd import Value
 
 class CrossEntropy:
     """

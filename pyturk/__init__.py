@@ -1,4 +1,4 @@
-from .value import Value
+from .autograd import Value
 from .nn.mlp import MLP
 from .nn.layer import Layer
 from .nn.neuron import Neuron

@@ -1,7 +1,8 @@
 import random
-from pyturk.value import Value
+from pyturk.autograd import Value
+from pyturk.nn.module import Module
 
-class Neuron:
+class Neuron(Module):
 
   def __init__(self, nin):
     self.w = [Value(random.uniform(-1,1), label='W') for _ in range(nin)]

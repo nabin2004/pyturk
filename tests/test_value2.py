@@ -1,4 +1,4 @@
-from pyturk.value import Value
+from pyturk.autograd import Value
 from pyturk.utils.graphviz import draw_dot
 
 # inputs x1,x2

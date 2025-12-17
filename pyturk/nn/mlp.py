@@ -1,6 +1,6 @@
 from pyturk.nn.layer import Layer
 
-class MLP:
+class MLP(Module):
   def __init__(self, nin, nouts):
     sz = [nin] + nouts
     self.layers = [Layer(sz[i], sz[i+1]) for i in range(len(nouts))]

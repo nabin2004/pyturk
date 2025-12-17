@@ -1,8 +1,7 @@
-import random
-from pyturk.value import Value
+from pyturk.autograd import Value
 from pyturk.nn.neuron import Neuron
 
-class Layer:
+class Layer(Module):
   def __init__(self, nin, nout):
     self.neurons = [Neuron(nin) for _ in range(nout)]
 
