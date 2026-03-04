@@ -1,15 +1,28 @@
-# pyturk/losses/mse.py
-from pyturk.core.value import Value
+"""Mean Squared Error loss for pyturk."""
 
-class MSE:
+from __future__ import annotations
+from typing import List, Union
+
+from pyturk.autograd import Value
+from pyturk.nn.module import Module
+
+
+class MSELoss(Module):
     """
-    Mean Squared Error Loss
-    Expects:
-    - predictions: list of Value objects
-    - targets: list of numbers (float/int)
+    Mean Squared Error Loss.
+
+    ``loss = (1/n) * sum((pred_i - target_i)^2)``
     """
 
-    def __call__(self, predictions, targets):
-        assert len(predictions) == len(targets), "predictions and targets must be same length"
-        loss = sum((pred - Value(t) )**2 for pred, t in zip(predictions, targets))
-        return loss / len(predictions)
+    def forward(
+        self,
+        predictions: List[Value],
+        targets: List[Union[Value, float]],
+    ) -> Value:
+        n = len(predictions)
+        assert n == len(targets), "predictions and targets must have same length"
+        loss = sum(
+            (pred - (t if isinstance(t, Value) else Value(t))) ** 2
+            for pred, t in zip(predictions, targets)
+        )
+        return loss * (1.0 / n)

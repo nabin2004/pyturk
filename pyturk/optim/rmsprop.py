@@ -1,28 +1,30 @@
+"""RMSProp optimizer for pyturk."""
+
+from __future__ import annotations
 import math
+from pyturk.optim.optimizer import Optimizer
 
-class RMSProp:
+
+class RMSProp(Optimizer):
     """
-    RMSProp optimizer for PyTurk Value parameters.
+    RMSProp optimizer (Hinton, 2012).
+
+    Args:
+        parameters: iterable of parameters to optimize
+        lr:         learning rate (default: 0.001)
+        alpha:      smoothing constant / decay rate (default: 0.9)
+        eps:        numerical stability term (default: 1e-8)
     """
 
-    def __init__(self, parameters, lr=0.001, gamma=0.9, eps=1e-8):
-        self.parameters = parameters
-        self.lr = lr
-        self.gamma = gamma  # decay rate for moving average of squared gradients
+    def __init__(self, parameters, lr=0.001, alpha=0.9, eps=1e-8):
+        super().__init__(parameters, lr)
+        self.alpha = alpha
         self.eps = eps
-
-        # Initialize squared gradient moving averages
-        self.s = {p: 0 for p in self.parameters}
+        self.v = {id(p): 0.0 for p in self.parameters}
 
     def step(self):
         for p in self.parameters:
-            g = p.grad
-            # Update moving average of squared gradients
-            self.s[p] = self.gamma * self.s[p] + (1 - self.gamma) * (g * g)
-
-            # Update parameters
-            p.data -= self.lr * g / (math.sqrt(self.s[p]) + self.eps)
-
-    def zero_grad(self):
-        for p in self.parameters:
-            p.grad = 0
+            g = p.grad.data if hasattr(p.grad, 'data') else p.grad
+            pid = id(p)
+            self.v[pid] = self.alpha * self.v[pid] + (1 - self.alpha) * (g ** 2)
+            p.data -= self.lr * g / (math.sqrt(self.v[pid]) + self.eps)

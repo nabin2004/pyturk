@@ -1,16 +1,18 @@
-# pyturk/data/circles.py
-from .dataset import Dataset
-from sklearn.datasets import make_circles
-import torch
+"""Circles dataset for pyturk."""
+
+from __future__ import annotations
+from pyturk.data.dataset import Dataset
+
 
 class CirclesDataset(Dataset):
-    def __init__(self, n_samples=100, noise=0.05):
+    def __init__(self, n_samples: int = 100, noise: float = 0.05):
         super().__init__()
         self.n_samples = n_samples
         self.noise = noise
         self.X, self.y = self.generate()
 
     def generate(self):
+        from sklearn.datasets import make_circles
         X, y = make_circles(n_samples=self.n_samples, noise=self.noise)
-        y = y * 2 - 1
-        return torch.tensor(X, dtype=torch.float), torch.tensor(y, dtype=torch.float)
+        y = y * 2 - 1  # map {0,1} -> {-1,1}
+        return X.tolist(), y.tolist()
